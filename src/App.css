@@ -1,1 +1,82 @@
 /* تم تفريغ الملف لاستخدام Tailwind CSS فقط */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .animate-fadeInUp {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  .animate-slideInRight {
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+  
+  .animate-slideInLeft {
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+  
+  /* Scrollbar Styling */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .scrollbar-thumb-gradient::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #eab308, #a71d2a);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-track-yellow-100::-webkit-scrollbar-track {
+    background: #fef3c7;
+    border-radius: 3px;
+  }
+  
+  /* Hover Effects */
+  .group:hover .group-hover\:animate-spin {
+    animation: spin 1s linear infinite;
+  }
+  
+  .group:hover .group-hover\:animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Custom Gradients */
+  .bg-gradient-custom {
+    background: linear-gradient(135deg, #a71d2a 0%, #d32f2f 25%, #eab308 50%, #fbbf24 75%, #a71d2a 100%);
+  }
+  
+  /* Glass Effect */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  

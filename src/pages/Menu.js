@@ -1,8 +1,8 @@
-// "use client"
+"use client"
 
 import { useState, useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
-import { Search, X } from "lucide-react"
+import { Search, X, Sparkles, ChefHat } from "lucide-react"
 import ProductCard from "../components/ProductCard"
 import kosharyData from "../data/kosharyData"
 import drinksData from "../data/drinksData"
@@ -17,37 +17,63 @@ function CategoryRow({ title, data, rowRef, expand }) {
   }, [expand])
 
   return (
-    <div className="mb-12" ref={rowRef}>
-      <div className="flex justify-between items-center mb-4 px-2">
-        <h2 className="text-2xl font-bold text-red-700 mb-0 text-right w-full">{title}</h2>
+    <div className="mb-16 group" ref={rowRef}>
+      <div className="flex justify-between items-center mb-6 px-4">
+        <div className="flex items-center gap-3">
+          <div className="w-1 h-8 bg-gradient-to-b from-[#a71d2a] to-[#eab308] rounded-full"></div>
+          <h2 className="text-3xl font-black text-transparent bg-gradient-to-r from-[#a71d2a] via-[#d32f2f] to-[#eab308] bg-clip-text drop-shadow-sm">
+            {title}
+          </h2>
+          <Sparkles className="w-6 h-6 text-[#eab308] animate-pulse" />
+        </div>
       </div>
+
       {!showAll ? (
         <>
-          <div className="flex overflow-x-auto space-x-4 px-2 scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-yellow-100">
-            {data.slice(0, 5).map((item) => (
-              <ProductCard key={item.id} {...item} />
+          <div className="flex overflow-x-auto space-x-4 px-4 pb-4 scrollbar-thin scrollbar-thumb-gradient scrollbar-track-yellow-100 scroll-smooth">
+            {data.slice(0, 5).map((item, index) => (
+              <div
+                key={item.id}
+                className="transform transition-all duration-300 hover:scale-105"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <ProductCard {...item} />
+              </div>
             ))}
           </div>
           {data.length > 5 && (
-            <div className="flex justify-center mt-2 px-2">
+            <div className="flex justify-center mt-4 px-4">
               <button
                 onClick={() => setShowAll(true)}
-                className="text-sm text-yellow-700 hover:underline font-semibold"
+                className="group relative bg-gradient-to-r from-[#eab308] to-[#fbbf24] text-[#a71d2a] font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 border-2 border-[#a71d2a]/20"
               >
-                عرض المزيد
+                <span className="relative z-10">عرض المزيد</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-[#a71d2a] to-[#d32f2f] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="absolute inset-0 flex items-center justify-center text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                  عرض المزيد
+                </span>
               </button>
             </div>
           )}
         </>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2">
-            {data.map((item) => (
-              <ProductCard key={item.id} {...item} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4">
+            {data.map((item, index) => (
+              <div
+                key={item.id}
+                className="transform transition-all duration-300 hover:scale-105 animate-fadeInUp"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <ProductCard {...item} />
+              </div>
             ))}
           </div>
-          <div className="flex justify-center mt-2 px-2">
-            <button onClick={() => setShowAll(false)} className="text-sm text-yellow-700 hover:underline font-semibold">
+          <div className="flex justify-center mt-6 px-4">
+            <button
+              onClick={() => setShowAll(false)}
+              className="group relative bg-gradient-to-r from-[#a71d2a] to-[#d32f2f] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
               عرض أقل
             </button>
           </div>
@@ -139,7 +165,6 @@ function Menu() {
 
   // أزرار التنقل السريع
   const handleScrollTo = (ref) => {
-    // مسح البحث عند النقر على أزرار التنقل
     if (searchTerm) {
       clearSearch()
     }
@@ -149,34 +174,54 @@ function Menu() {
   }
 
   return (
-    <div className="min-h-screen bg-white py-10">
-      <h1 className="text-3xl font-bold text-red-700 mb-8 text-center">قائمة الطعام</h1>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 py-12">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <ChefHat className="w-10 h-10 text-[#a71d2a] animate-bounce" />
+          <h1 className="text-5xl font-black text-transparent bg-gradient-to-r from-[#a71d2a] via-[#d32f2f] to-[#eab308] bg-clip-text drop-shadow-lg">
+            قائمة الطعام
+          </h1>
+          <ChefHat className="w-10 h-10 text-[#eab308] animate-bounce" style={{ animationDelay: "0.5s" }} />
+        </div>
+        <p className="text-xl text-gray-600 font-semibold">اكتشف أشهى الأطباق المصرية الأصيلة</p>
+      </div>
 
-      {/* شريط البحث */}
-      <div className="max-w-2xl mx-auto mb-8 px-4">
-        <div className="relative">
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+      {/* شريط البحث المحسن */}
+      <div className="max-w-3xl mx-auto mb-12 px-4">
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#a71d2a] to-[#eab308] rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+          <div className="relative bg-white rounded-2xl shadow-xl border border-gray-200">
+            <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+              <Search className="h-6 w-6 text-[#a71d2a] animate-pulse" />
+            </div>
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchTerm}
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder="ابحث عن المنتجات المفضلة لديك..."
+              className="block w-full pr-12 pl-12 py-4 text-lg border-0 rounded-2xl bg-transparent placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#eab308]/30 text-right font-medium"
+            />
+            {searchTerm && (
+              <button onClick={clearSearch} className="absolute inset-y-0 left-0 pl-4 flex items-center group">
+                <X className="h-6 w-6 text-gray-400 group-hover:text-[#a71d2a] transition-colors duration-200" />
+              </button>
+            )}
           </div>
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchTerm}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="ابحث عن المنتجات..."
-            className="block w-full pr-10 pl-10 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-red-500 focus:border-red-500 text-right"
-          />
-          {searchTerm && (
-            <button onClick={clearSearch} className="absolute inset-y-0 left-0 pl-3 flex items-center">
-              <X className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-            </button>
-          )}
         </div>
 
         {/* عرض عدد النتائج */}
         {searchTerm && (
-          <div className="mt-2 text-sm text-gray-600 text-right">
-            {searchResults.length > 0 ? `تم العثور على ${searchResults.length} منتج` : "لم يتم العثور على أي منتجات"}
+          <div className="mt-4 text-center">
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 shadow-md">
+              <Sparkles className="w-4 h-4 text-[#eab308]" />
+              <span className="text-sm font-semibold text-gray-700">
+                {searchResults.length > 0
+                  ? `تم العثور على ${searchResults.length} منتج`
+                  : "لم يتم العثور على أي منتجات"}
+              </span>
+            </div>
           </div>
         )}
       </div>
@@ -185,11 +230,15 @@ function Menu() {
       {searchTerm && searchResults.length > 0 ? (
         // نتائج البحث
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {searchResults.map((item) => (
-              <div key={`${item.category}-${item.id}`} className="relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {searchResults.map((item, index) => (
+              <div
+                key={`${item.category}-${item.id}`}
+                className="relative group animate-fadeInUp"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
                 <ProductCard {...item} />
-                <div className="absolute top-2 left-2 bg-red-700 text-white text-xs px-2 py-1 rounded-full">
+                <div className="absolute top-3 left-3 bg-gradient-to-r from-[#a71d2a] to-[#d32f2f] text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg transform group-hover:scale-110 transition-transform duration-200">
                   {item.category}
                 </div>
               </div>
@@ -198,41 +247,47 @@ function Menu() {
         </div>
       ) : searchTerm && searchResults.length === 0 ? (
         // لا توجد نتائج
-        <div className="max-w-7xl mx-auto px-4 text-center py-12">
-          <div className="text-gray-500">
-            <Search className="h-16 w-16 mx-auto mb-4 text-gray-300" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">لم يتم العثور على أي منتجات</h3>
-            <p className="text-gray-500">جرب البحث بكلمات مختلفة</p>
+        <div className="max-w-4xl mx-auto px-4 text-center py-16">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-12">
+            <Search className="h-20 w-20 mx-auto mb-6 text-gray-300 animate-pulse" />
+            <h3 className="text-2xl font-bold text-gray-800 mb-4">لم يتم العثور على أي منتجات</h3>
+            <p className="text-gray-600 text-lg">جرب البحث بكلمات مختلفة أو تصفح الفئات أدناه</p>
           </div>
         </div>
       ) : (
         // عرض الفئات العادي
         <>
-          {/* أزرار التنقل السريع */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
+          {/* أزرار التنقل السريع المحسنة */}
+          <div className="flex flex-wrap justify-center gap-4 mb-16 px-4">
             <button
               onClick={() => handleScrollTo(kosharyRef)}
-              className="bg-[#a71d2a] hover:bg-[#eab308] hover:text-[#a71d2a] text-white font-bold py-2 px-7 rounded-full shadow-lg transition-colors duration-200 border-2 border-[#eab308]"
+              className="group relative bg-gradient-to-r from-[#a71d2a] to-[#d32f2f] text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-[#eab308]/30 overflow-hidden"
             >
-              كشري
+              <div className="absolute inset-0 bg-gradient-to-r from-[#eab308] to-[#fbbf24] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 group-hover:text-[#a71d2a] transition-colors duration-300">🍛 كشري</span>
             </button>
             <button
               onClick={() => handleScrollTo(drinksRef)}
-              className="bg-[#388e3c] hover:bg-[#eab308] hover:text-[#388e3c] text-white font-bold py-2 px-7 rounded-full shadow-lg transition-colors duration-200 border-2 border-[#eab308]"
+              className="group relative bg-gradient-to-r from-[#388e3c] to-[#4caf50] text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-[#eab308]/30 overflow-hidden"
             >
-              مشروبات
+              <div className="absolute inset-0 bg-gradient-to-r from-[#eab308] to-[#fbbf24] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 group-hover:text-[#388e3c] transition-colors duration-300">
+                🥤 مشروبات
+              </span>
             </button>
             <button
               onClick={() => handleScrollTo(dessertsRef)}
-              className="bg-[#eab308] hover:bg-[#a71d2a] hover:text-[#eab308] text-[#a71d2a] font-bold py-2 px-7 rounded-full shadow-lg transition-colors duration-200 border-2 border-[#a71d2a]"
+              className="group relative bg-gradient-to-r from-[#eab308] to-[#fbbf24] text-[#a71d2a] font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-[#a71d2a]/30 overflow-hidden"
             >
-              حلويات
+              <div className="absolute inset-0 bg-gradient-to-r from-[#a71d2a] to-[#d32f2f] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 group-hover:text-white transition-colors duration-300">🍰 حلويات</span>
             </button>
             <button
               onClick={() => handleScrollTo(addonsRef)}
-              className="bg-[#795548] hover:bg-[#eab308] hover:text-[#795548] text-white font-bold py-2 px-7 rounded-full shadow-lg transition-colors duration-200 border-2 border-[#eab308]"
+              className="group relative bg-gradient-to-r from-[#795548] to-[#8d6e63] text-white font-bold py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-[#eab308]/30 overflow-hidden"
             >
-              إضافات
+              <div className="absolute inset-0 bg-gradient-to-r from-[#eab308] to-[#fbbf24] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative z-10 group-hover:text-[#795548] transition-colors duration-300">🧄 إضافات</span>
             </button>
           </div>
 
